@@ -116,7 +116,7 @@ class Agent(BaseAgent):
     @model_validator(mode="after")
     def post_init_setup(self):
         self.agent_ops_agent_name = self.role
-
+        print(self.llm,type(self.llm))
         # Handle different cases for self.llm
         if isinstance(self.llm, str):
             # If it's a string, create an LLM instance
@@ -145,13 +145,15 @@ class Agent(BaseAgent):
             llm_params = {
                 "model": getattr(self.llm, "model_name", None)
                 or getattr(self.llm, "deployment_name", None)
+                or getattr(self.llm, "model", None)
                 or str(self.llm),
                 "temperature": getattr(self.llm, "temperature", None),
                 "max_tokens": getattr(self.llm, "max_tokens", None),
                 "logprobs": getattr(self.llm, "logprobs", None),
                 "timeout": getattr(self.llm, "timeout", None),
                 "max_retries": getattr(self.llm, "max_retries", None),
-                "api_key": getattr(self.llm, "api_key", None),
+                "api_key": getattr(self.llm, "api_key", None)
+                or getattr(self.llm, "google_api_key", None),
                 "base_url": getattr(self.llm, "base_url", None),
                 "organization": getattr(self.llm, "organization", None),
             }
@@ -167,6 +169,7 @@ class Agent(BaseAgent):
                 self.function_calling_llm = LLM(
                     model=getattr(self.function_calling_llm, "model_name", None)
                     or getattr(self.function_calling_llm, "deployment_name", None)
+                    or getattr(self.llm, "model", None)
                     or str(self.function_calling_llm)
                 )
 
