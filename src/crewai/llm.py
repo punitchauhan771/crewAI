@@ -164,6 +164,7 @@ class LLM:
 
     def supports_function_calling(self) -> bool:
         try:
+            print(self.model)
             params = get_supported_openai_params(model=self.model)
             return "response_format" in params
         except Exception as e:
