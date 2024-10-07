@@ -148,6 +148,7 @@ class LLM:
                     "stream": False,
                     **self.kwargs,
                 }
+                logging.info(f"params {params}")
 
                 # Remove None values to avoid passing unnecessary parameters
                 params = {k: v for k, v in params.items() if v is not None}
