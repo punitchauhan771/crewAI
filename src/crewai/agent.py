@@ -142,6 +142,7 @@ class Agent(BaseAgent):
             self.llm = LLM(**llm_params)
         else:
             # For any other type, attempt to extract relevant attributes
+            print('I am executing YAYA')
             llm_params = {
                 "model": getattr(self.llm, "model_name", None)
                 or getattr(self.llm, "deployment_name", None)
@@ -159,6 +160,7 @@ class Agent(BaseAgent):
             }
             # Remove None values to avoid passing unnecessary parameters
             llm_params = {k: v for k, v in llm_params.items() if v is not None}
+            print(llm_params)
             self.llm = LLM(**llm_params)
 
         # Similar handling for function_calling_llm
