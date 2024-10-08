@@ -154,13 +154,12 @@ class Agent(BaseAgent):
                 "timeout": getattr(self.llm, "timeout", None),
                 "max_retries": getattr(self.llm, "max_retries", None),
                 "api_key": getattr(self.llm, "api_key", None)
-                or getattr(self.llm, "google_api_key", None),
+                or getattr(self.llm, "google_api_key", None).get_secret_value() if hasattr(getattr(self.llm, "google_api_key", None), 'get_secret_value') else getattr(self.llm, "google_api_key", None),
                 "base_url": getattr(self.llm, "base_url", None),
                 "organization": getattr(self.llm, "organization", None),
             }
             # Remove None values to avoid passing unnecessary parameters
             llm_params = {k: v for k, v in llm_params.items() if v is not None}
-            print(llm_params)
             self.llm = LLM(**llm_params)
 
         # Similar handling for function_calling_llm
