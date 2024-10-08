@@ -153,7 +153,7 @@ class Agent(BaseAgent):
                 "logprobs": getattr(self.llm, "logprobs", None),
                 "timeout": getattr(self.llm, "timeout", None),
                 "max_retries": getattr(self.llm, "max_retries", None),
-                "api_key": getattr(self.llm, "api_key", None)
+                "api_key": getattr(self.llm, "api_key", None).get_secret_value() if hasattr(getattr(self.llm, "api_key", None), 'get_secret_value') else getattr(self.llm, "api_key", None)
                 or getattr(self.llm, "google_api_key", None).get_secret_value() if hasattr(getattr(self.llm, "google_api_key", None), 'get_secret_value') else getattr(self.llm, "google_api_key", None),
                 "base_url": getattr(self.llm, "base_url", None),
                 "organization": getattr(self.llm, "organization", None),
